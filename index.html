@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Adriano Vedana · Desenvolvedor Full Stack</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=JetBrains+Mono:wght@400;700&display=swap">
+<style>
+:root{--bg:#020403;--neon:#00ff88;--soft:#38ffa8;--deep:#00b862;--text:#eafff4;--muted:#86ab99;--glass:rgba(255,255,255,.045);--line:rgba(0,255,136,.28);color-scheme:dark;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px);scroll-behavior:smooth}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--bg);color:var(--text);font-family:"Space Grotesk",system-ui,sans-serif;line-height:1.6;overflow-x:hidden}
+canvas#fx{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
+body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(55% 50% at 20% 15%,rgba(0,255,136,.14),transparent 70%),radial-gradient(45% 45% at 85% 80%,rgba(0,184,98,.12),transparent 70%)}
+main,header,footer{position:relative;z-index:1}
+.mono{font-family:"JetBrains Mono",ui-monospace,monospace}
+.neon{color:var(--neon);text-shadow:0 0 24px rgba(0,255,136,.7),0 0 60px rgba(0,255,136,.3)}
+nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;display:flex;justify-content:space-between;align-items:center;padding:14px clamp(18px,5vw,64px);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);background:rgba(2,4,3,.55);border-bottom:1px solid rgba(0,255,136,.12)}
+nav b{font-family:"JetBrains Mono",monospace;color:var(--neon);font-weight:700}
+nav div{display:flex;gap:clamp(12px,3vw,32px);font-size:.95rem}
+nav a{color:var(--muted);text-decoration:none;transition:color .2s}
+nav a:hover,nav a:focus-visible{color:var(--neon);outline:none}
+a:focus-visible,button:focus-visible{outline:2px solid var(--neon);outline-offset:4px;border-radius:6px}
+.wrap{max-width:1180px;margin:0 auto;padding:0 clamp(18px,5vw,48px)}
+.hero{min-height:calc(100vh - 60px);display:flex;align-items:center;padding:64px 0}
+.hero .term{font-family:"JetBrains Mono",monospace;color:var(--neon);font-size:clamp(.95rem,2vw,1.2rem);min-height:1.7em}
+.hero .term i{display:inline-block;width:.6em;height:1.1em;background:var(--neon);vertical-align:-.15em;margin-left:3px;animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+h1{font-size:clamp(2.6rem,8vw,6.6rem);line-height:1.02;letter-spacing:-.035em;margin:.35em 0 .25em;font-weight:700}
+.sub{font-size:clamp(1.05rem,2.2vw,1.5rem);color:var(--muted);max-width:34ch}
+.cta{display:flex;flex-wrap:wrap;gap:14px;margin-top:36px}
+.btn{display:inline-block;padding:14px 28px;border-radius:999px;font-weight:700;text-decoration:none;transition:transform .2s,box-shadow .2s}
+.btn.p{background:var(--neon);color:#00160b;box-shadow:0 0 30px rgba(0,255,136,.45)}
+.btn.p:hover{transform:translateY(-2px);box-shadow:0 0 48px rgba(0,255,136,.7)}
+.btn.g{border:1px solid var(--line);color:var(--text);background:var(--glass);backdrop-filter:blur(12px)}
+.btn.g:hover{border-color:var(--neon);transform:translateY(-2px)}
+section{padding:clamp(64px,11vw,140px) 0}
+h2{font-size:clamp(2rem,5vw,3.8rem);line-height:1.08;letter-spacing:-.03em;margin:0 0 .5em;font-weight:700;max-width:18ch}
+p.lead{color:var(--muted);font-size:clamp(1.05rem,1.8vw,1.3rem);max-width:60ch;margin:0 0 2.2em}
+.glass{background:linear-gradient(145deg,rgba(0,255,136,.07),var(--glass));border:1px solid var(--line);border-radius:22px;backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);box-shadow:0 20px 60px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.08)}
+.grid{display:grid;gap:20px}
+.g2{grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr))}
+.g3{grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr))}
+.card{padding:28px;transition:transform .25s,border-color .25s}
+.card:hover{transform:translateY(-6px);border-color:var(--neon)}
+.card h3{margin:0 0 .4em;font-size:1.35rem}
+.card p{margin:0;color:var(--muted)}
+.big{font-size:clamp(5rem,16vw,11rem);font-weight:700;line-height:.9;letter-spacing:-.05em}
+.trail{list-style:none;margin:0;padding:0 0 0 28px;border-left:2px solid var(--line)}
+.trail li{position:relative;padding:0 0 34px 24px}
+.trail li::before{content:"";position:absolute;left:-37px;top:8px;width:14px;height:14px;border-radius:50%;background:var(--neon);box-shadow:0 0 18px var(--neon)}
+.trail b{display:block;font-size:1.4rem}
+.trail span{color:var(--muted)}
+.arch{display:flex;flex-wrap:wrap;gap:14px;align-items:stretch;justify-content:center;margin:10px 0 40px}
+.node{flex:1 1 170px;padding:22px;text-align:center}
+.node b{display:block;font-size:1.15rem}
+.node span{font-family:"JetBrains Mono",monospace;font-size:.82rem;color:var(--neon)}
+.link{flex:0 0 40px;align-self:center;height:3px;position:relative;background:repeating-linear-gradient(90deg,var(--neon) 0 8px,transparent 8px 16px);opacity:.8}
+.link::after{content:"";position:absolute;top:-4px;left:0;width:11px;height:11px;border-radius:50%;background:var(--neon);box-shadow:0 0 14px var(--neon);animation:pkt 1.8s linear infinite}
+@keyframes pkt{to{left:calc(100% - 11px)}}
+@media(max-width:700px){.link{display:none}}
+.code{padding:0;overflow:hidden;max-width:640px}
+.code .bar{display:flex;gap:8px;padding:14px 18px;border-bottom:1px solid var(--line)}
+.code .bar i{width:12px;height:12px;border-radius:50%;background:#ff5f56}
+.code .bar i:nth-child(2){background:#ffbd2e}.code .bar i:nth-child(3){background:var(--neon)}
+.code pre{margin:0;padding:20px 22px;font-family:"JetBrains Mono",monospace;font-size:.92rem;line-height:1.7;overflow-x:auto;color:#d6ffe9}
+.k{color:var(--neon)}.s{color:#ffd479}.c{color:#4f7a66}.f{color:#6ad7ff}
+.chips{display:flex;flex-wrap:wrap;gap:12px;margin-top:8px}
+.chip{padding:10px 22px;border-radius:999px;font-family:"JetBrains Mono",monospace;font-size:.95rem;color:var(--soft);border:1px solid var(--line);background:var(--glass)}
+.quote{font-size:clamp(1.5rem,4vw,2.8rem);line-height:1.2;letter-spacing:-.02em;font-weight:500;max-width:22ch}
+.id{text-align:center}
+.id h2{max-width:none;margin-inline:auto}
+.contacts a{display:block;padding:22px 26px;text-decoration:none;color:var(--text);transition:transform .25s,border-color .25s}
+.contacts a:hover{transform:translateY(-4px);border-color:var(--neon)}
+.contacts small{display:block;font-family:"JetBrains Mono",monospace;color:var(--neon);margin-bottom:4px}
+footer{padding:40px 0 60px;text-align:center;color:var(--muted);font-size:.9rem}
+.rv{opacity:0;filter:blur(10px);transform:translateY(24px);transition:opacity .8s,filter .8s,transform .8s}
+.rv.on{opacity:1;filter:none;transform:none}
+@media(prefers-reduced-motion:reduce){.rv{opacity:1;filter:none;transform:none;transition:none}.link::after,.hero .term i{animation:none}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<canvas id="fx" aria-hidden="true"></canvas>
+
+<nav>
+  <b>&lt;AV/&gt;</b>
+  <div><a href="#trajetoria">Trajetória</a><a href="#fullstack">Full Stack</a><a href="#comercial">Comercial</a><a href="#contato">Contato</a></div>
+</nav>
+
+<header class="hero"><div class="wrap">
+  <div class="term" id="term" aria-label="Não comecei sabendo tudo. Comecei querendo construir algo."></div>
+  <h1>Adriano <span class="neon">Vedana</span></h1>
+  <p class="sub">Desenvolvedor Full Stack com mentalidade tecnológica e visão comercial.</p>
+  <div class="cta">
+    <a class="btn p" href="#contato">Vamos conversar</a>
+    <a class="btn g" href="#trajetoria">Ver minha trajetória</a>
+  </div>
+</div></header>
+
+<main>
+<section id="trajetoria"><div class="wrap">
+  <h2 class="rv">Minha trajetória até aqui</h2>
+  <p class="lead rv">Do primeiro programa à Engenharia de Software: cada etapa somou uma camada de conhecimento.</p>
+  <div class="grid g2" style="align-items:center">
+    <div class="rv">
+      <div class="big neon">3 anos</div>
+      <p class="lead" style="margin-top:.6em">Curso técnico em Análise e Desenvolvimento de Sistemas (ADS) no SENAI Porto.</p>
+    </div>
+    <ul class="trail rv">
+      <li><b>Lógica de programação</b><span>A base de qualquer solução.</span></li>
+      <li><b>Desenvolvimento de sistemas</b><span>Do requisito ao sistema funcionando.</span></li>
+      <li><b>Resolução de problemas e projetos</b><span>Construir, errar, ajustar e entregar.</span></li>
+      <li><b>Engenharia de Software</b><span>Faculdade em andamento: soluções cada vez mais completas.</span></li>
+    </ul>
+  </div>
+  <p class="quote rv" style="margin-top:50px">A evolução <span class="neon">não para</span>. Cada linha de código é um novo passo.</p>
+</div></section>
+
+<section id="fullstack"><div class="wrap">
+  <h2 class="rv">Do clique ao banco de dados</h2>
+  <p class="lead rv">Atuo nas duas pontas da aplicação e na comunicação entre elas.</p>
+  <div class="arch rv">
+    <div class="glass node"><b>Front-end</b><span>interfaces</span></div><div class="link"></div>
+    <div class="glass node"><b>API</b><span>integrações</span></div><div class="link"></div>
+    <div class="glass node"><b>Back-end</b><span>regras de negócio</span></div><div class="link"></div>
+    <div class="glass node"><b>Banco de dados</b><span>informação</span></div>
+  </div>
+  <div class="grid g2" style="align-items:start">
+    <div class="glass code rv">
+      <div class="bar"><i></i><i></i><i></i></div>
+<pre><span class="c">// back-end</span>
+<span class="k">app</span>.<span class="f">get</span>(<span class="s">'/api/vendas'</span>, <span class="k">async</span> (req, res) =&gt; {
+  <span class="k">const</span> dados = <span class="k">await</span> db.<span class="f">query</span>(sql);
+  <span class="k">return</span> res.<span class="f">json</span>(dados);
+});</pre>
+    </div>
+    <div class="chips rv"><span class="chip">Front-end</span><span class="chip">Back-end</span><span class="chip">Integração de APIs</span><span class="chip">Banco de dados</span><span class="chip">Aplicações web</span><span class="chip">Soluções tecnológicas</span></div>
+  </div>
+</div></section>
+
+<section id="comercial"><div class="wrap">
+  <h2 class="rv">Também vendo tecnologia</h2>
+  <p class="lead rv">No comércio, trabalho com produtos que o mercado pede todos os dias. Isso me ensinou a ouvir o cliente antes de propor qualquer solução.</p>
+  <div class="grid g3">
+    <div class="glass card rv"><h3>iPhones</h3><p>Linha Apple para o dia a dia.</p></div>
+    <div class="glass card rv"><h3>MacBooks</h3><p>Trabalho e criação.</p></div>
+    <div class="glass card rv"><h3>Starlink</h3><p>Internet onde ela faltava.</p></div>
+    <div class="glass card rv"><h3>Eletrônicos</h3><p>Acessórios, tablets e mais.</p></div>
+  </div>
+  <div class="chips rv" style="margin-top:30px"><span class="chip">Atendimento</span><span class="chip">Comunicação</span><span class="chip">Negociação</span><span class="chip">Relacionamento</span></div>
+  <p class="quote rv" style="margin-top:50px">Não desenvolvo apenas soluções. Também entendo <span class="neon">pessoas, negócios e oportunidades</span>.</p>
+</div></section>
+
+<section class="id"><div class="wrap">
+  <h2 class="rv">Desenvolvedor <span class="neon">Full Stack.</span><br>Mentalidade tecnológica.<br>Visão <span class="neon">comercial.</span></h2>
+  <p class="lead rv" style="margin-inline:auto">Software e mercado de tecnologia na mesma jornada.</p>
+</div></section>
+
+<section id="contato"><div class="wrap">
+  <h2 class="rv">Minha jornada está apenas começando.</h2>
+  <p class="lead rv">O próximo projeto pode ser o próximo grande passo. Fale comigo.</p>
+  <!-- EDITE os links abaixo com seus dados reais -->
+  <div class="grid g3 contacts">
+    <a class="glass rv" href="https://github.com/vedanaaaky"><small>GitHub</small>Vedanaaky</a>
+    <a class="glass rv" href="https://www.linkedin.com/in/adriano-vedana-vargas-72528335b" target="_blank" rel="noopener"><small>LinkedIn</small>Adriano Vedana</a>
+    <a class="glass rv" href="https://instagram.com/itsvedana"><small>Instagram</small>@itsvedana</a>
+    <a class="glass rv" href="mailto:vedanaky@gmail.com"><small>E-mail</small>vedanaky@gmail.com</a>
+  </div>
+</div></section>
+</main>
+
+<footer>© 2026 Adriano Vedana · Cuiabá, MT</footer>
+
+<script>
+// Digitação do hero
+(function(){
+  var t=document.getElementById('term'),txt='Não comecei sabendo tudo. Comecei querendo construir algo.',i=0;
+  var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(reduce){t.textContent='> '+txt;return}
+  t.innerHTML='> <span></span><i></i>';var sp=t.firstElementChild;
+  (function go(){sp.textContent=txt.slice(0,++i);if(i<txt.length)setTimeout(go,45)})();
+})();
+// Revelação ao rolar
+(function(){
+  var els=document.querySelectorAll('.rv');
+  if(!('IntersectionObserver' in window)){els.forEach(function(e){e.classList.add('on')});return}
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('on');io.unobserve(e.target)}})},{threshold:.15});
+  els.forEach(function(e){io.observe(e)});
+})();
+// Partículas verdes com parallax
+(function(){
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  var c=document.getElementById('fx'),x=c.getContext('2d'),W,H,P=[],N=70,sy=0;
+  function rs(){var d=Math.min(devicePixelRatio||1,2);W=c.width=innerWidth*d;H=c.height=innerHeight*d;x.setTransform(d,0,0,d,0,0)}
+  rs();addEventListener('resize',rs);addEventListener('scroll',function(){sy=scrollY},{passive:true});
+  for(var i=0;i<N;i++)P.push({x:Math.random(),y:Math.random(),z:.3+Math.random()*1.2,p:Math.random()*6.28});
+  (function f(t){
+    x.clearRect(0,0,innerWidth,innerHeight);
+    P.forEach(function(p){
+      p.y-=.0004*p.z;if(p.y<-.02)p.y=1.02;
+      var px=p.x*innerWidth+Math.sin(t/1500+p.p)*14*p.z,py=((p.y*innerHeight-sy*.08*p.z)%innerHeight+innerHeight)%innerHeight,r=1+p.z*1.6;
+      x.globalAlpha=.35+.5*Math.abs(Math.sin(t/900+p.p));x.fillStyle='#7dffc0';x.shadowColor='#00ff88';x.shadowBlur=r*5;
+      x.beginPath();x.arc(px,py,r,0,6.283);x.fill();
+    });
+    requestAnimationFrame(f);
+  })(0);
+})();
+</script>
+</body>
+</html>
